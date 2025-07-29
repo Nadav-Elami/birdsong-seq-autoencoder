@@ -1,0 +1,92 @@
+# Quick Test Template
+# Use this for fast experimentation and debugging
+
+inherits_from: ["../base.yaml"]
+
+# Override experiment configuration for quick testing
+experiment:
+  name: "quick-test"
+  description: "Fast experiment for testing and debugging"
+  tags: ["test", "debug", "quick"]
+  
+  # Run all phases but quickly
+  run_data_generation: true
+  run_training: true
+  run_evaluation: true
+  
+  output_dir: "quick_tests"
+
+# Minimal data for fast generation
+data:
+  # Small dataset for speed
+  num_batches: 10
+  batch_size: 20
+  seq_min_length: 5
+  seq_max_length: 15
+  
+  # Validation enabled but minimal
+  validate_data: true
+  plot_samples: false
+
+# Small model for fast training
+model:
+  # Minimal dimensions
+  encoder_dim: 32
+  controller_dim: 32
+  generator_dim: 32
+  factor_dim: 16
+  latent_dim: 8
+  inferred_input_dim: 4
+  
+  # No dropout for simplicity
+  dropout_rate: 0.0
+
+# Fast training configuration
+training:
+  # Very short training
+  epochs: 5
+  batch_size: 16
+  learning_rate: 0.01  # Higher for faster convergence
+  
+  # Immediate KL annealing
+  kl_start_epoch: 0
+  kl_full_epoch: 2
+  
+  # Minimal regularization
+  l1_lambda: 0.0
+  l2_lambda: 0.0
+  
+  # Fast data loading
+  num_workers: 0
+  pin_memory: false
+  val_split: 0.2
+  test_split: 0.1
+  
+  # Frequent checkpointing for debugging
+  save_every: 1
+  keep_best: false
+  
+  # Verbose logging
+  print_every: 1
+  plot_dir: "quick_test_plots"
+  disable_tqdm: false
+
+# Basic evaluation
+evaluation:
+  # Fast evaluation
+  batch_size: 32
+  
+  # Basic analysis only
+  analyze_latents: false
+  analyze_reconstructions: true
+  analyze_transitions: false
+  
+  # Minimal visualization
+  plot_samples: true
+  plot_metrics: false
+  plot_latents: false
+  
+  # Simple outputs
+  output_dir: "quick_test_evaluation"
+  save_reconstructions: false
+  export_format: "png" 

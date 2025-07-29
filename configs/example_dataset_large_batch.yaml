@@ -1,0 +1,171 @@
+# Example Dataset Large Batch Training Configuration
+# Use this for training on the provided example dataset with large batches
+
+version: "1.0"
+
+# Experiment configuration
+experiment:
+  name: "example-dataset-large-batch"
+  description: "Training on example dataset with large batches for debugging"
+  tags: ["example", "large-batch", "debug"]
+  
+  # Run training and evaluation
+  run_data_generation: false  # Use existing dataset
+  run_training: true
+  run_evaluation: true
+  
+  output_dir: "example_dataset_training"
+  
+  # Resource configuration
+  device: "auto"  # Will use GPU automatically
+
+# Data configuration
+data:
+  data_path: "examples/example datasets/aggregated_birdsong_data_14_syl_linear_50_song_in_batch_50_timesteps_20250608_150659.h5"
+  validate_data: true
+  plot_samples: false
+
+# Model configuration
+model:
+  alphabet_size: 14  # Should match the dataset
+  order: 1  # Should match the dataset
+  
+  # Larger model dimensions
+  encoder_dim: 64
+  controller_dim: 64
+  generator_dim: 64
+  factor_dim: 512
+  latent_dim: 32
+  inferred_input_dim: 16
+  
+  # Model hyperparameters
+  kappa: 1.0
+  ar_step_size: 0.99
+  ar_process_var: 0.1
+  
+  # Architecture options
+  dropout_rate: 0.1
+  use_bias: true
+
+# Training configuration
+training:
+  # Training parameters
+  epochs: 15  # Increased since GPU is much faster now!
+  batch_size: 64  # Reduced from 128 for better memory efficiency
+  learning_rate: 0.001
+  
+  # Optimizer configuration
+  optimizer: "adam"
+  weight_decay: 0.001
+  momentum: 0.9
+  
+  # Learning rate scheduling
+  lr_scheduler: "none"
+  lr_step_size: 10
+  lr_gamma: 0.1
+  lr_min: 1e-6
+  
+  # KL annealing schedule
+  kl_start_epoch: 5
+  kl_full_epoch: 10
+  
+  # Loss configuration - toggles for each loss component
+  enable_kl_loss: false
+  enable_l1_loss: false
+  enable_l2_loss: false
+  enable_reconstruction_loss: true
+  
+  # Regularization
+  l1_lambda: 0.01
+  l2_lambda: 0.001
+  kl_weight: 0.1
+  
+  # Training control
+  gradient_clip_norm: 1.0
+  early_stopping_patience: null  # Disabled
+  early_stopping_min_delta: 1e-4
+  
+  # Data loading - optimized for performance
+  num_workers: 0  # Reduced from 4 to avoid HDF5 file access conflicts
+  pin_memory: false  # Disabled to reduce memory pressure
+  val_split: 0.2
+  test_split: 0.1
+  
+  # Checkpointing
+  save_every: 2
+  keep_best: true
+  max_checkpoints: 3
+  
+  # Logging
+  print_every: 50  # Increased from 10 to reduce I/O overhead
+  disable_tqdm: false
+  log_tensorboard: false
+  log_wandb: false
+  
+  # Advanced training options
+  mixed_precision: false  # Not implemented yet
+  deterministic: false
+  seed: null
+
+# Evaluation configuration
+evaluation:
+  batch_size: 128  # Back to larger batch size for GPU
+  num_plots: 10
+  num_samples: 100
+  
+  # Test set evaluation (recommended for proper evaluation)
+  use_test_set: true  # Set to true to use test set from checkpoint
+  
+  # Analysis options - detailed toggles for each analysis type
+  analyze_reconstructions: true
+  analyze_transitions: true
+  analyze_latents: true
+  analyze_factors: true
+  analyze_trajectories: true
+  analyze_kl_divergence: true
+  analyze_cross_entropy: true
+  analyze_accuracy: true
+  analyze_js_divergence: true
+  
+  # Latent analysis performance settings
+  max_latent_analysis_samples: 500  # Limit samples for latent analysis
+  skip_tsne_for_large_datasets: true  # Skip t-SNE for datasets > 1000 samples
+  latent_analysis_batch_size: 32  # Smaller batch size for latent extraction
+  
+  # Visualization options - detailed toggles for each plot type
+  plot_samples: true
+  plot_metrics: true
+  plot_latents: true
+  plot_transitions: true
+  plot_factors: true
+  plot_reconstructions: true
+  plot_summary_metrics: true
+  plot_individual_samples: true
+  
+  # Output configuration
+  save_reconstructions: false
+  export_format: "png"
+  export_svg: true
+  export_pdf: false
+  dpi: 300
+  
+  # Detailed analysis configuration
+  smooth_window: 5
+  compute_per_timestep: true
+  compute_summary_stats: true
+  save_detailed_metrics: true
+  
+  # Export options
+  export_results: true
+  export_plots: true
+  export_metrics: true
+  export_latents: true
+  
+  # Advanced evaluation options
+  use_gpu: true
+  deterministic_eval: false
+  seed: null
+
+
+
+ 

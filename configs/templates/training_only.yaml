@@ -1,0 +1,74 @@
+# Training Only Template
+# Use this for standalone model training tasks with existing data
+
+inherits_from: ["../base.yaml"]
+
+# Override experiment configuration for training only
+experiment:
+  name: "model-training"
+  description: "Standalone model training experiment"
+  tags: ["training", "model", "standalone"]
+  
+  # Only run training
+  run_data_generation: false
+  run_training: true
+  run_evaluation: false
+  
+  output_dir: "training_outputs"
+
+# Enhanced training configuration
+training:
+  # Longer training for better results
+  epochs: 100
+  batch_size: 64
+  learning_rate: 0.001
+  
+  # Improved KL annealing schedule
+  kl_start_epoch: 5
+  kl_full_epoch: 25
+  
+  # Enhanced regularization
+  l1_lambda: 0.0001
+  l2_lambda: 0.00001
+  
+  # Better data loading for training
+  num_workers: 2
+  pin_memory: true
+  
+  # More frequent checkpointing
+  save_every: 5
+  keep_best: true
+  
+  # Enhanced logging
+  print_every: 5
+  plot_dir: "training_plots"
+
+# Model configuration optimized for training
+model:
+  # Slightly larger model for better capacity
+  encoder_dim: 128
+  controller_dim: 128
+  generator_dim: 128
+  factor_dim: 64
+  latent_dim: 32
+  inferred_input_dim: 16
+  
+  # Light dropout for regularization
+  dropout_rate: 0.1
+
+# Data configuration for training (expects existing data)
+data:
+  # Must specify data_path for training-only
+  data_path: null  # Override this with actual data path
+  
+  # Minimal data generation params (not used but required for validation)
+  num_batches: 1
+  batch_size: 1
+  
+  # No validation needed
+  validate_data: false
+  plot_samples: false
+
+# Minimal evaluation config (not used but required for schema)
+evaluation:
+  batch_size: 64 

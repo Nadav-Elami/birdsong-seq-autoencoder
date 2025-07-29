@@ -1,0 +1,111 @@
+# Base Configuration Template for Birdsong Research
+# This provides sensible defaults for all components
+
+version: "1.0"
+
+# Data generation and loading configuration
+data:
+  # Alphabet symbols for sequence generation
+  alphabet: ["<", "a", "b", "c", "d", "e", "f", ">"]
+  
+  # Markov process order (1=bigram, 2=trigram, etc.)
+  order: 1
+  
+  # Process configuration for data generation
+  process_configs:
+    - ["linear", 4]
+    - ["linear_with_noise", 4]
+  
+  # Sequence parameters
+  num_batches: 100
+  batch_size: 50
+  seq_min_length: 10
+  seq_max_length: 50
+  
+  # Data paths (override in experiments)
+  data_path: null  # Path to existing H5 file
+  output_path: null  # Auto-generated if null
+  
+  # Validation options
+  validate_data: true
+  plot_samples: false
+
+# Model architecture configuration  
+model:
+  # Will be auto-derived from data.alphabet if null
+  alphabet_size: null
+  order: 1  # Must match data.order
+  
+  # Network dimensions
+  encoder_dim: 64
+  controller_dim: 64
+  generator_dim: 64
+  factor_dim: 32
+  latent_dim: 16
+  inferred_input_dim: 8
+  
+  # Model hyperparameters
+  kappa: 1.0
+  ar_step_size: 0.99
+  ar_process_var: 0.1
+  
+  # Architecture options
+  dropout_rate: 0.0
+  use_bias: true
+
+# Training configuration
+training:
+  # Training parameters
+  epochs: 20
+  batch_size: 32
+  learning_rate: 0.001
+  
+  # KL annealing schedule
+  kl_start_epoch: 2
+  kl_full_epoch: 10
+  
+  # Loss weights
+  l1_lambda: 0.0001
+  l2_lambda: 0.0
+  
+  # Loss configuration
+  enable_kl_loss: true
+  enable_l1_loss: true
+  enable_l2_loss: true
+  
+  # Data loading
+  num_workers: 0
+  pin_memory: false
+  val_split: 0.15
+  test_split: 0.1
+  
+  # Checkpointing
+  checkpoint_path: "checkpoints/birdsong_lfads.pt"
+  save_every: 10
+  keep_best: true
+  
+  # Logging and visualization
+  print_every: 10
+  plot_dir: "plots"
+  disable_tqdm: false
+
+# Evaluation configuration
+evaluation:
+  # Will be set from training.checkpoint_path if null
+  checkpoint_path: null
+  batch_size: 64
+  
+  # Analysis options
+  analyze_latents: false
+  analyze_reconstructions: true
+  analyze_transitions: true
+  
+  # Visualization options
+  plot_samples: true
+  plot_metrics: true
+  plot_latents: false
+  
+  # Output configuration
+  output_dir: "evaluation_results"
+  save_reconstructions: false
+  export_format: "png" 

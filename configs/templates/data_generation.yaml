@@ -1,0 +1,44 @@
+# Data Generation Only Template
+# Use this for standalone data generation tasks
+
+inherits_from: ["../base.yaml"]
+
+# Override experiment configuration for data generation only
+experiment:
+  name: "data-generation"
+  description: "Standalone data generation experiment"
+  tags: ["data", "generation", "standalone"]
+  
+  # Only run data generation
+  run_data_generation: true
+  run_training: false
+  run_evaluation: false
+  
+  output_dir: "data_generation_outputs"
+
+# Enhanced data configuration for generation
+data:
+  # Larger dataset for training
+  num_batches: 500
+  batch_size: 100
+  
+  # Validation and plotting enabled
+  validate_data: true
+  plot_samples: true
+  
+  # Auto-generate output path with timestamp
+  output_path: null
+
+# Minimal model config (required for schema validation)
+model:
+  alphabet_size: 8  # Matches default alphabet length
+  order: 1
+
+# Minimal training config (not used but required for schema)
+training:
+  epochs: 1
+  batch_size: 32
+
+# Minimal evaluation config (not used but required for schema)  
+evaluation:
+  batch_size: 64 

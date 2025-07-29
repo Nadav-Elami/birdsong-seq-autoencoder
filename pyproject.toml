@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "birdsong-seq-autoencoder"
+version = "0.1.0"
+description = "Research-grade Python package for LFADS-style sequential autoencoder analysis of birdsong syntax and neural dynamics"
+authors = [
+    {name = "Nadav Elami", email = "nadav.elami@weizmann.ac.il"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "torch>=2.0.0",
+    "numpy>=1.21.0",
+    "h5py>=3.8.0",
+    "matplotlib>=3.5.0",
+    "tqdm>=4.64.0",
+    "pyyaml>=6.0",
+    "scikit-learn>=1.0.0",
+    "seaborn>=0.11.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.scripts]
+birdsong-train = "birdsong.cli.train_enhanced:main"
+birdsong-eval = "birdsong.cli.eval_enhanced:main"
+birdsong-generate = "birdsong.cli.generate:main"
+birdsong-experiment = "birdsong.cli.experiment:main"
+birdsong-analyze = "birdsong.cli.analyze:main"
+# Legacy commands (keep for backward compatibility)
+birdsong-train-legacy = "birdsong.cli.train:main"
+birdsong-eval-legacy = "birdsong.cli.eval:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.ruff]
+target-version = "py310"
+line-length = 88
+select = ["E", "F", "I", "N", "W", "B", "C4", "UP"]
+ignore = ["E501", "B008"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short" 

@@ -1,0 +1,94 @@
+# Full End-to-End Experiment Template
+# Use this for complete experiments: data generation → training → evaluation
+
+inherits_from: ["../base.yaml"]
+
+# Complete experiment configuration
+experiment:
+  name: "full-birdsong-experiment"
+  description: "Complete end-to-end birdsong LFADS experiment"
+  tags: ["complete", "end-to-end", "birdsong", "lfads"]
+  
+  # Run all phases
+  run_data_generation: true
+  run_training: true
+  run_evaluation: true
+  
+  output_dir: "full_experiments"
+  save_config: true
+
+# Enhanced data generation
+data:
+  # Generate substantial dataset
+  num_batches: 1000
+  batch_size: 100
+  seq_min_length: 15
+  seq_max_length: 75
+  
+  # Enable validation and plotting
+  validate_data: true
+  plot_samples: true
+
+# Well-tuned model architecture
+model:
+  # Balanced architecture
+  encoder_dim: 128
+  controller_dim: 128
+  generator_dim: 128
+  factor_dim: 64
+  latent_dim: 32
+  inferred_input_dim: 16
+  
+  # Optimized hyperparameters
+  kappa: 1.2
+  ar_step_size: 0.95
+  ar_process_var: 0.12
+  
+  # Light regularization
+  dropout_rate: 0.1
+
+# Comprehensive training configuration
+training:
+  # Extended training
+  epochs: 150
+  batch_size: 64
+  learning_rate: 0.0008
+  
+  # Careful KL annealing
+  kl_start_epoch: 10
+  kl_full_epoch: 50
+  
+  # Balanced regularization
+  l1_lambda: 0.0001
+  l2_lambda: 0.00005
+  
+  # Optimized data loading
+  num_workers: 4
+  pin_memory: true
+  val_split: 0.15
+  test_split: 0.1
+  
+  # Regular checkpointing
+  save_every: 10
+  keep_best: true
+  
+  # Detailed logging
+  print_every: 5
+  plot_dir: "full_experiment_plots"
+
+# Comprehensive evaluation
+evaluation:
+  # Thorough analysis
+  analyze_latents: true
+  analyze_reconstructions: true
+  analyze_transitions: true
+  
+  # Complete visualization
+  plot_samples: true
+  plot_metrics: true
+  plot_latents: true
+  
+  # Publication-ready outputs
+  output_dir: "full_experiment_evaluation"
+  save_reconstructions: true
+  export_format: "pdf" 

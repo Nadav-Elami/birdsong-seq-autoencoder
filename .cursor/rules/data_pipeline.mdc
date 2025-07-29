@@ -1,0 +1,41 @@
+# Data Pipeline Patterns
+
+## Data Generation
+- Use `BirdsongSimulator` for high-level data generation interface
+- Validate alphabet contains '<' and '>' symbols before simulation
+- Use `simulate_birdsong()` for core simulation logic
+- Save results with `save_to_hdf5()` for consistent format
+
+## Data Loading
+- Use `BirdsongDataset` for loading HDF5 files
+- Validate file exists and contains required datasets
+- Handle missing or corrupted data gracefully
+- Use relative paths when possible
+
+## Process Functions
+- Define process functions with signature `(x, A, t) -> updated_x`
+- Use numpy arrays for process function inputs/outputs
+- Register new process types in `PROCESS_FUNCTIONS` dictionary
+- Document process behavior and parameters
+
+## Error Handling
+- Validate input parameters early in functions
+- Provide informative error messages for invalid inputs
+- Handle file I/O errors gracefully
+- Check data shapes and types before processing
+
+## Performance
+- Use vectorized operations when possible
+- Batch data processing for large datasets
+- Use appropriate data types (float32 for efficiency)
+- Consider memory usage for large simulations
+
+## Testing
+- Test data generation with small, deterministic examples
+- Validate data shapes and ranges
+- Test edge cases (empty data, invalid parameters)
+- Use fixtures for common test data
+description:
+globs:
+alwaysApply: false
+---

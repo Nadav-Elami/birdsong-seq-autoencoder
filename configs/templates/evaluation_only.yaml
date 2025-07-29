@@ -1,0 +1,64 @@
+# Evaluation Only Template
+# Use this for standalone model evaluation tasks with existing checkpoints
+
+inherits_from: ["../base.yaml"]
+
+# Override experiment configuration for evaluation only
+experiment:
+  name: "model-evaluation"
+  description: "Standalone model evaluation experiment"
+  tags: ["evaluation", "analysis", "standalone"]
+  
+  # Only run evaluation
+  run_data_generation: false
+  run_training: false
+  run_evaluation: true
+  
+  output_dir: "evaluation_outputs"
+
+# Enhanced evaluation configuration
+evaluation:
+  # Must specify checkpoint_path for evaluation-only
+  checkpoint_path: null  # Override this with actual checkpoint path
+  
+  # Larger batch size for faster evaluation
+  batch_size: 128
+  
+  # Enable all analysis options
+  analyze_latents: true
+  analyze_reconstructions: true
+  analyze_transitions: true
+  
+  # Enable all visualization options
+  plot_samples: true
+  plot_metrics: true
+  plot_latents: true
+  
+  # Enhanced output configuration
+  output_dir: "detailed_evaluation"
+  save_reconstructions: true
+  export_format: "pdf"  # High quality for publications
+
+# Data configuration for evaluation (expects existing data)
+data:
+  # Must specify data_path for evaluation-only
+  data_path: null  # Override this with actual data path
+  
+  # Minimal data generation params (not used but required for validation)
+  num_batches: 1
+  batch_size: 1
+  
+  # No validation needed
+  validate_data: false
+  plot_samples: false
+
+# Model config (will be loaded from checkpoint)
+model:
+  # These should match the trained model
+  alphabet_size: null  # Will be auto-derived
+  order: 1
+
+# Minimal training config (not used but required for schema)
+training:
+  epochs: 1
+  batch_size: 32 
